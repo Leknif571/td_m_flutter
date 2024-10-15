@@ -11,8 +11,7 @@ class BodyMassIndex extends StatefulWidget {
 }
 
 class _BodyMassIndexState extends State<BodyMassIndex> {
-  final _tailleField = GlobalKey<FormState>();
-  final _poidsField = GlobalKey<FormState>();
+  final _formImc = GlobalKey<FormState>();
   final _taille = TextEditingController();
   final _poids = TextEditingController();
 
@@ -23,8 +22,7 @@ class _BodyMassIndexState extends State<BodyMassIndex> {
 
   void _calculeImc() {
     setState(() {
-      if (_poidsField.currentState!.validate() ||
-          _tailleField.currentState!.validate()) {
+      if (_formImc.currentState!.validate()) {
         imc = double.parse(_poids.text) /
             ((double.parse(_taille.text) / 100) *
                 (double.parse(_taille.text) / 100));
@@ -48,61 +46,78 @@ class _BodyMassIndexState extends State<BodyMassIndex> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                key: _poidsField,
-                controller: _poids,
-                // validator: imcValidator,
-                decoration: const InputDecoration(
-                  labelText: 'Poids',
-                  border: OutlineInputBorder(),
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(widget.title),
+        ),
+        body: Form(
+          key: _formImc,
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    key: const Key("_poidsField"),
+                    controller: _poids,
+                    validator: (v) {
+                      RegExp reg = RegExp(r'^[0-9]*$');
+                      if (v == null || v.isEmpty) {
+                        return 'Champs obligatoire';
+                      } else if (reg.allMatches(v).length != 1) {
+                        return 'Utiliser uniquement des nombres';
+                      } else if (v.length > 3) {
+                        return 'Uniquement 3 chiffres';
+                      }
+
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Poids',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                key: _tailleField,
-                controller: _taille,
-                validator: (String? v) {
-                  RegExp reg = RegExp(r'^[0-9]*$');
-                  if (reg.allMatches(v!).length != 1) {
-                    return 'Utiliser uniquement des nombres';
-                  } else if (v.length > 3) {
-                    return 'Uniquement 3 chiffres';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Taille',
-                  border: OutlineInputBorder(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    key: const Key("_tailleField"),
+                    controller: _taille,
+                    validator: (v) {
+                      RegExp reg = RegExp(r'^[0-9]*$');
+                      if (v == null || v.isEmpty) {
+                        return 'Champs obligatoire';
+                      } else if (reg.allMatches(v).length != 1) {
+                        return 'Utiliser uniquement des nombres';
+                      } else if (v.length > 3) {
+                        return 'Uniquement 3 chiffres';
+                      }
+
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Taille',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            ElevatedButton(
-                onPressed: _calculeImc, child: const Icon(Icons.verified)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Vous êtes:',
+                ElevatedButton(
+                    onPressed: _calculeImc, child: const Icon(Icons.verified)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Vous êtes:',
+                    ),
+                    Text(imcCategory)
+                  ],
                 ),
-                Text(imcCategory)
+                Center(child: _getRadialGauge(imc, imcString))
               ],
             ),
-            // Center(child: _getRadialGauge(imc, imcString))
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
 
