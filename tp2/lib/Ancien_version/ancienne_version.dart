@@ -15,10 +15,15 @@ class _BodyMassIndexState extends State<BodyMassIndex> {
   final _taille = TextEditingController();
   final _poids = TextEditingController();
 
-  double imc = 0;
-  String imcString = '';
-  bool isTrue = false;
-  String imcCategory = '';
+  late String category;
+  late double imc;
+
+  @override
+  void initState() {
+    category = "normal";
+    imc = 0;
+    super.initState();
+  }
 
   void _calculeImc() {
     setState(() {
@@ -26,21 +31,56 @@ class _BodyMassIndexState extends State<BodyMassIndex> {
         imc = double.parse(_poids.text) /
             ((double.parse(_taille.text) / 100) *
                 (double.parse(_taille.text) / 100));
-        imcString = imc.toInt().toString();
 
-        if (imc > 18.5 && imc < 25) {
-          imcCategory = "Normal";
-        } else if (imc > 25 && imc < 30) {
-          imcCategory = "Surpoids";
-        } else if (imc > 30 && imc < 35) {
-          imcCategory = "Obèse";
-        } else if (imc > 35) {
-          imcCategory = "Obèse morbide";
-        } else if (imc < 18.5) {
-          imcCategory = "Anorxie";
+        switch (imc) {
+          case var v when (v < 18.5):
+            returnCategory("Anorexie");
+            break;
+          case var v when (v >= 18.5 && v < 25):
+            returnCategory("Normal");
+            break;
+          case var v when (v >= 25 && v < 30):
+            returnCategory("Surpoids");
+            break;
+          case var v when (v >= 30 && v < 35):
+            returnCategory("Obèse");
+            break;
+          case var v when (v >= 35):
+            returnCategory("Obèse morbide");
+            break;
+          default:
+            returnCategory("Valeur inconnue");
         }
       }
     });
+  }
+
+  /* On aurait pu directement formatter l'affichage en enlevant le widget Row et 
+    Text pour n'avoir que ça : 
+    ***Controlleur***
+    String returnCategory(String v) {
+        return category = "Vous êtes $v";
+    }
+    ***Vue***
+        ...
+          Text(category)
+        ...  
+    */
+
+  String returnCategory(String v) {
+    return category = v;
+  }
+
+  String? _inputValidator(v) {
+    RegExp reg = RegExp(r'^[0-9]*$');
+    if (v == null || v.isEmpty) {
+      return 'Champs obligatoire';
+    } else if (reg.allMatches(v).length != 1) {
+      return 'Utiliser uniquement des nombres';
+    } else if (v.length > 3) {
+      return 'Uniquement 3 chiffres';
+    }
+    return null;
   }
 
   @override
@@ -61,18 +101,7 @@ class _BodyMassIndexState extends State<BodyMassIndex> {
                   child: TextFormField(
                     key: const Key("_poidsField"),
                     controller: _poids,
-                    validator: (v) {
-                      RegExp reg = RegExp(r'^[0-9]*$');
-                      if (v == null || v.isEmpty) {
-                        return 'Champs obligatoire';
-                      } else if (reg.allMatches(v).length != 1) {
-                        return 'Utiliser uniquement des nombres';
-                      } else if (v.length > 3) {
-                        return 'Uniquement 3 chiffres';
-                      }
-
-                      return null;
-                    },
+                    validator: _inputValidator,
                     decoration: const InputDecoration(
                       labelText: 'Poids',
                       border: OutlineInputBorder(),
@@ -84,18 +113,7 @@ class _BodyMassIndexState extends State<BodyMassIndex> {
                   child: TextFormField(
                     key: const Key("_tailleField"),
                     controller: _taille,
-                    validator: (v) {
-                      RegExp reg = RegExp(r'^[0-9]*$');
-                      if (v == null || v.isEmpty) {
-                        return 'Champs obligatoire';
-                      } else if (reg.allMatches(v).length != 1) {
-                        return 'Utiliser uniquement des nombres';
-                      } else if (v.length > 3) {
-                        return 'Uniquement 3 chiffres';
-                      }
-
-                      return null;
-                    },
+                    validator: _inputValidator,
                     decoration: const InputDecoration(
                       labelText: 'Taille',
                       border: OutlineInputBorder(),
@@ -110,10 +128,10 @@ class _BodyMassIndexState extends State<BodyMassIndex> {
                     const Text(
                       'Vous êtes:',
                     ),
-                    Text(imcCategory)
+                    Text(category)
                   ],
                 ),
-                Center(child: _getRadialGauge(imc, imcString))
+                Center(child: _getRadialGauge(imc, imc.toInt().toString()))
               ],
             ),
           ),
