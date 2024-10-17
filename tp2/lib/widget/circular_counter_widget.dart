@@ -38,7 +38,7 @@ class CircularCounter extends StatelessWidget {
         NeedlePointer(value: imc)
       ], annotations: <GaugeAnnotation>[
         GaugeAnnotation(
-            widget: Text(imc.toInt().toString(),
+            widget: Text(imc.toStringAsFixed(1),
                 style:
                     const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
             angle: 90,

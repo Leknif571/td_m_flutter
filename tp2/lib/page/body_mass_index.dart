@@ -43,7 +43,6 @@ class _BodyMassIndexState extends State<BodyMassIndex> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(widget.title),
@@ -51,23 +50,26 @@ class _BodyMassIndexState extends State<BodyMassIndex> {
         body: Form(
           key: _formImc,
           child: Center(
-            child: Column(
-              children: <Widget>[
-                InputPoids(poids: _poids, bodyMassLogic: _bodyMassLogic),
-                InputTaille(taille: _taille, bodyMassLogic: _bodyMassLogic),
-                ElevatedButton(
-                    onPressed: _calculeImc, child: const Icon(Icons.verified)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Vous êtes: ',
-                    ),
-                    Text(category)
-                  ],
-                ),
-                Center(child: CircularCounter(imc: imc))
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  InputPoids(poids: _poids, bodyMassLogic: _bodyMassLogic),
+                  InputTaille(taille: _taille, bodyMassLogic: _bodyMassLogic),
+                  ElevatedButton(
+                      onPressed: _calculeImc,
+                      child: const Icon(Icons.verified)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Vous êtes: ',
+                      ),
+                      Text(category)
+                    ],
+                  ),
+                  Center(child: CircularCounter(imc: imc))
+                ],
+              ),
             ),
           ),
         ));
