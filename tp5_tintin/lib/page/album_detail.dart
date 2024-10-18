@@ -16,11 +16,8 @@ class AlbumDetail extends StatefulWidget {
 }
 
 class _AlbumDetailState extends State<AlbumDetail> {
-  late final ReadingListProvider _readingListProvider;
-
   @override
   void initState() {
-    _readingListProvider = ReadingListProvider();
     super.initState();
   }
 
@@ -68,11 +65,11 @@ class _AlbumDetailState extends State<AlbumDetail> {
                       builder: (context, value, child) {
                     return ElevatedButton(
                         onPressed: () {
-                          _readingListProvider.favouriteAction(widget.album);
+                          value.favouriteAction(widget.album);
                         },
                         child: Icon(value.listFavourite.contains(widget.album)
-                            ? Icons.heart_broken
-                            : Icons.favorite));
+                            ? Icons.favorite
+                            : Icons.heart_broken_outlined));
                   }),
                 ],
               ),

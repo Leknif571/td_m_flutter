@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:tp5_tintin/models/album_model.dart';
 import 'package:tp5_tintin/service/album_service.dart';
+import 'package:tp5_tintin/db_instance/db_instance.dart';
 
 class ReadingListProvider extends ChangeNotifier {
-  final List<Album> listFavourite = [];
+  List<Album> listFavourite = [];
 
   //Methode retournant un booléan qui vérifie si un Album est dans la liste favori
   // Non utile avec le provider
@@ -15,15 +17,37 @@ class ReadingListProvider extends ChangeNotifier {
   // }
 
   //Méthode d'ajout de favori dans la liste
-  void addFavourite(Album a) {
-    listFavourite.add(a);
+  Future<void> addFavourite(Album a) async {
+    final Database db = await DbInstance.database();
+    await db.insert('favourite', {'number': a.numero});
+    await updateFavouriteList();
+  }
+
+  // Mise a jour de la liste des favoris
+  Future<void> updateFavouriteList() async {
+    listFavourite = await getAllFavourite();
     notifyListeners();
   }
 
   //Méthode de suppression de favori dans la liste
-  void removeFavourite(Album a) {
-    listFavourite.remove(a);
-    notifyListeners();
+  void removeFavourite(Album a) async {
+    final Database db = await DbInstance.database();
+    await db.delete('favourite', where: 'number= ${a.numero}');
+    await updateFavouriteList();
+  }
+
+  Future<List<Album>> getAllFavourite() async {
+    final db = await DbInstance.database();
+    final List<Map<String, dynamic>> maps = await db.query('favourite');
+
+    List<int> list = List.generate(maps.length, (i) => maps[i]['number']);
+    List<Album> listFav = [];
+
+    for (int i in list) {
+      Album a = await getAlbumByNumero(i);
+      listFav.add(a);
+    }
+    return listFav;
   }
 
   /* 
@@ -31,7 +55,7 @@ class ReadingListProvider extends ChangeNotifier {
   supprimer en fonction de si l'album est déjà dans la liste ou pas. 
   */
 
-  void favouriteAction(Album a) {
+  void favouriteAction(Album a) async {
     if (listFavourite.contains(a)) {
       /*
       Remarque j'aurais pu directement faire appel a la fonction native .remove
@@ -44,15 +68,15 @@ class ReadingListProvider extends ChangeNotifier {
     } else {
       addFavourite(a);
     }
-    notifyListeners();
   }
 
   Future<List<Album>> getAllAlbum() async {
+    await updateFavouriteList();
     List<Album> listAlbum = await AlbumService.fetchAlbum();
     return listAlbum;
   }
 
-  Future<Album> getAlbumByNumero(int n) async {
+  static Future<Album> getAlbumByNumero(int n) async {
     List<Album> listAlbum = await AlbumService.fetchAlbum();
     Album oneAlbum = listAlbum[n];
     return oneAlbum;

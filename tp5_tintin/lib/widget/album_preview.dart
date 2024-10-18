@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 // import 'package:tp5_tintin/logic_metier/add_favourite_album.dart';
 import 'package:tp5_tintin/models/album_model.dart';
 import 'package:tp5_tintin/page/album_detail.dart';
@@ -17,11 +18,8 @@ class PreviwAlbum extends StatefulWidget {
 }
 
 class _PreviwAlbumState extends State<PreviwAlbum> {
-  late final ReadingListProvider _readingListProvider;
-
   @override
   void initState() {
-    _readingListProvider = ReadingListProvider();
     super.initState();
   }
 
@@ -29,12 +27,15 @@ class _PreviwAlbumState extends State<PreviwAlbum> {
   Widget build(BuildContext context) {
     return ListTile(
         leading: Image(image: AssetImage('images/${widget.album?.image}')),
-        trailing: Icon(
-          _readingListProvider.listFavourite.contains(widget.album)
-              ? Icons.track_changes
-              : Icons.heart_broken,
-          color: const Color.fromARGB(255, 249, 0, 0),
-        ),
+        trailing:
+            Consumer<ReadingListProvider>(builder: (context, value, child) {
+          return Icon(
+            value.listFavourite.contains(widget.album)
+                ? Icons.favorite
+                : Icons.heart_broken_outlined,
+            color: const Color.fromARGB(255, 249, 0, 0),
+          );
+        }),
         title: Text(
           widget.album?.title ?? "got null",
           style: const TextStyle(color: Colors.white),
