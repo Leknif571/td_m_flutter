@@ -30,7 +30,7 @@ class _PreviwAlbumState extends State<PreviwAlbum> {
         trailing:
             Consumer<ReadingListProvider>(builder: (context, value, child) {
           return Icon(
-            value.listFavourite.contains(widget.album)
+            value.listFavourite.contains(widget.album!.numero)
                 ? Icons.favorite
                 : Icons.heart_broken_outlined,
             color: const Color.fromARGB(255, 249, 0, 0),

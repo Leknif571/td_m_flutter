@@ -67,9 +67,10 @@ class _AlbumDetailState extends State<AlbumDetail> {
                         onPressed: () {
                           value.favouriteAction(widget.album);
                         },
-                        child: Icon(value.listFavourite.contains(widget.album)
-                            ? Icons.favorite
-                            : Icons.heart_broken_outlined));
+                        child: Icon(
+                            value.listFavourite.contains(widget.album.numero)
+                                ? Icons.favorite
+                                : Icons.heart_broken_outlined));
                   }),
                 ],
               ),
