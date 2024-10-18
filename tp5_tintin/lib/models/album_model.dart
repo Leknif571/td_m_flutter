@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:tp5_tintin/modeles/gps_model.dart';
+import 'package:tp5_tintin/models/gps_model.dart';
 
 class Album {
   String title;
@@ -40,5 +40,23 @@ class Album {
     };
 
     return jsonEncode(albumToJson);
+  }
+
+  /* 
+  Cette fonction récupére ce qu'on lui donne depuis AlbumService méthode 
+  fetchAlbum, cette méthode Factory ne retourne que des instance d'Album depuis
+  chaque instance du map bouclé dans fetchAlbum. Ensuite on récupére leurs valeurs
+  en les "pointant" 
+  */
+  factory Album.fromJson(Map<String, dynamic> jsonData) {
+    return Album(
+        title: jsonData['titre'],
+        numero: jsonData['numero'],
+        year: jsonData['parution'],
+        image: jsonData['image'],
+        resume: jsonData['resume'],
+        //Voir class gps_model
+        gps: Gps.fromJson(jsonData['gps']),
+        location: jsonData['lieu']);
   }
 }
