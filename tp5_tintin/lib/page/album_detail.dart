@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:provider/provider.dart';
 import 'package:tp5_tintin/models/album_model.dart';
 import 'package:tp5_tintin/providers/reading_list_provider.dart';
+import 'package:latlong2/latlong.dart';
+
 // import '../logic_metier/add_favourite_album.dart';
 
 class AlbumDetail extends StatefulWidget {
@@ -72,6 +75,40 @@ class _AlbumDetailState extends State<AlbumDetail> {
                                 ? Icons.favorite
                                 : Icons.heart_broken_outlined));
                   }),
+                  Container(
+                    height: 400,
+                    alignment: Alignment.centerLeft,
+                    child: FlutterMap(
+                      options: MapOptions(
+                        initialCenter: LatLng(
+                            widget.album.gps.latitude,
+                            widget.album.gps
+                                .longitude), // Center the map over London
+                        initialZoom: 9.2,
+                      ),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          userAgentPackageName: 'com.example.app',
+                        ),
+                        MarkerLayer(
+                          markers: [
+                            Marker(
+                              point: LatLng(widget.album.gps.latitude,
+                                  widget.album.gps.longitude),
+                              width: 80,
+                              height: 80,
+                              child: const Icon(
+                                Icons.pin_drop_sharp,
+                                color: Color.fromARGB(255, 204, 14, 0),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),

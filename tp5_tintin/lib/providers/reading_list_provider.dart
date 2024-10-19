@@ -6,6 +6,7 @@ import 'package:tp5_tintin/db_instance/db_instance.dart';
 
 class ReadingListProvider extends ChangeNotifier {
   List<int> listFavourite = [];
+  bool isDarkMode = false;
 
   // Constructeur
   ReadingListProvider() {
@@ -83,5 +84,16 @@ class ReadingListProvider extends ChangeNotifier {
     List<Album> listAlbum = await AlbumService.fetchAlbum();
     Album oneAlbum = listAlbum[n];
     return oneAlbum;
+  }
+
+  // J'aurais normalement du créer un autre provider pour gérer cela, mais la
+  // je perd patience ^^'
+
+  void setDarkMode() {
+    if (isDarkMode) {
+      isDarkMode = false;
+    } else {
+      isDarkMode = true;
+    }
   }
 }

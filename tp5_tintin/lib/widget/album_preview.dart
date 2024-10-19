@@ -36,10 +36,15 @@ class _PreviwAlbumState extends State<PreviwAlbum> {
             color: const Color.fromARGB(255, 249, 0, 0),
           );
         }),
-        title: Text(
-          widget.album?.title ?? "got null",
-          style: const TextStyle(color: Colors.white),
-        ),
+        title: Consumer<ReadingListProvider>(builder: (context, value, child) {
+          return Text(
+            widget.album?.title ?? "got null",
+            style: TextStyle(
+                color: value.listFavourite.contains(widget.album!.numero)
+                    ? Colors.red
+                    : Colors.white),
+          );
+        }),
         tileColor: Colors.black87,
         onTap: () => Navigator.push(
             context,

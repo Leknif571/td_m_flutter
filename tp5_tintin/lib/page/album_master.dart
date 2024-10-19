@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 //Import de mes modèles
 import 'package:tp5_tintin/models/album_model.dart';
+import 'package:tp5_tintin/page/album_world_map.dart';
 import 'package:tp5_tintin/providers/reading_list_provider.dart';
 
 //Import de mes services et logique métier
@@ -47,6 +48,23 @@ class _AlbumMasterState extends State<AlbumMaster> {
             "Album",
             style: TextStyle(color: Colors.white),
           )),
+          leading: IconButton(
+              onPressed: () => {ReadingListProvider().setDarkMode()},
+              icon: const Icon(
+                Icons.dark_mode,
+                color: Colors.white,
+              )),
+          actions: [
+            IconButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AlbumWorldMap())),
+                icon: const Icon(
+                  Icons.map_sharp,
+                  color: Colors.white,
+                ))
+          ],
           backgroundColor: Colors.red,
         ),
         body: FutureBuilder<List<Album>?>(
