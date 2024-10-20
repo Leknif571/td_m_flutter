@@ -13,6 +13,7 @@
 
 ### 📋 TP2 : IMC  
 ✅ Tout a été terminé.
+✅ Tout les tes tests unitaires ont étaient effectués. Widget et logique métier.
 
 ### 🎰 TP3 : Casino  
 ⚠️ Tout a été terminé, sauf l'animation des symboles. J'avais avancé dessus, mais la terminer m'aurait fait perdre trop de temps, donc j'ai supprimer mon état d'avancer (car il créer des bugs).  
@@ -37,9 +38,11 @@ Map<int, String?> returnTable(List listImage) {
   return indexMap;
 }
 ```
+⚠️ Je n'ai pas eu le temps de faire les tests unitaires
 
 ### 🍎🍐🍍 TP4 : Pomme Poire Ananas  
 ✅ Tout a été terminé.
+⚠️ Je n'ai pas eu le temps de faire les tests unitaires
 
 ### 📚 TP5 : Titin  
 ⚠️ Tout a été terminé, sauf l'UI et le mode sombre.  
@@ -47,6 +50,7 @@ Map<int, String?> returnTable(List listImage) {
 - En cliquant sur un livre, on est téléporté vers son détail.  
 - Pour la base de données, j'ai utilisé **Sqflite**, donc cela fonctionne sur Android, macOS, iOS, mais pas sur Windows.  
 - Le fichier `adb_test` est juste une extraction de ma base de données `favourite.db` depuis le shell ADB, afin que je puisse visualiser les données via **DbEaver**.
+⚠️ Je n'ai pas eu le temps de faire les tests unitaires
 
 ---
 
