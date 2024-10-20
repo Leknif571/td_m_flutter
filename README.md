@@ -12,7 +12,7 @@
 ✅ Tout a été terminé.
 
 ### 📋 TP2 : IMC  
-✅ Tout a été terminé.
+✅ Tout a été terminé.  
 ✅ Tout les tests unitaires ont étaient effectués. Widget et logique métier.
 
 ### 🎰 TP3 : Casino  
@@ -49,7 +49,7 @@ Map<int, String?> returnTable(List listImage) {
 - Le bouton pour accéder à la map se trouve dans la **AppBar**, à droite dans la partie **Action**.  
 - En cliquant sur un livre, on est téléporté vers son détail.  
 - Pour la base de données, j'ai utilisé **Sqflite**, donc cela fonctionne sur Android, macOS, iOS, mais pas sur Windows.  
-- Le fichier `adb_test` est juste une extraction de ma base de données `favourite.db` depuis le shell ADB, afin que je puisse visualiser les données via **DbEaver**.
+- Le fichier `adb_test` est juste une extraction de ma base de données `favourite.db` depuis le shell ADB, afin que je puisse visualiser les données via **DbEaver**.  
 ⚠️ Je n'ai pas eu le temps de faire les tests unitaires
 
 ---
