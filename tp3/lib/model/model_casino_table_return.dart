@@ -1,6 +1,6 @@
-class DtoRetrunTableCasino {
+class ModelCasinoTableReturn {
   Map<int, String?> resultRandom;
   List<String?> listImage;
 
-  DtoRetrunTableCasino(this.resultRandom, this.listImage);
+  ModelCasinoTableReturn(this.resultRandom, this.listImage);
 }

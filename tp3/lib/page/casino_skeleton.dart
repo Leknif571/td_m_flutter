@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:tp3/logic_metier/casino_logic.dart';
 
@@ -23,23 +26,31 @@ class _CasinoSkeletonState extends State<CasinoSkeleton> {
     "images/pasteque.png",
     "images/sept.png"
   ];
-  late DtoCasino casino;
-  late DtoRetrunTableCasino allMap;
+  final _ctrll = ConfettiController();
+  late ModelCasino casino;
+  late ModelCasinoTableReturn allMap;
 
   @override
   void initState() {
-    casino = DtoCasino("", false, false);
-    allMap = DtoRetrunTableCasino(
+    casino = ModelCasino("", false, false);
+    allMap = ModelCasinoTableReturn(
         {0: listImage[0], 1: listImage[0], 2: listImage[0]}, listImage);
 
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _ctrll.dispose();
+  }
+
   void _onPlay() {
     setState(() {
       Map<int, String?> randomImage = CasinoLogic().returnTable(listImage);
-      allMap = DtoRetrunTableCasino(randomImage, listImage);
+      allMap = ModelCasinoTableReturn(randomImage, listImage);
       casino = CasinoLogic().onPlay(allMap);
+      casino.isJackpot ? _ctrll.play() : _ctrll.stop();
     });
   }
 
@@ -84,6 +95,12 @@ class _CasinoSkeletonState extends State<CasinoSkeleton> {
                     ),
                   )
                 ],
+              ),
+              ConfettiWidget(
+                confettiController: _ctrll,
+                blastDirection: -pi / 2,
+                numberOfParticles: 150,
+                gravity: 0.08,
               ),
               ElevatedButton(
                   onPressed: _onPlay, child: const Icon(Icons.play_arrow)),

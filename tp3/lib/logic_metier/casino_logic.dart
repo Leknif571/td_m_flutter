@@ -3,15 +3,15 @@ import '../model/model_casino_result.dart';
 import '../model/model_casino_table_return.dart';
 
 class CasinoLogic {
-  DtoCasino onPlay(DtoRetrunTableCasino allList) {
+  ModelCasino onPlay(ModelCasinoTableReturn allList) {
     if (allList.resultRandom[0] == allList.resultRandom[1] &&
         allList.resultRandom[1] == allList.resultRandom[2]) {
       if (allList.resultRandom[0] == allList.listImage[6]) {
-        return DtoCasino("Méga Jackpot !!!", true, false);
+        return ModelCasino("Méga Jackpot !!!", true, true);
       }
-      return DtoCasino("jackpot", true, false);
+      return ModelCasino("jackpot", true, false);
     } else {
-      return DtoCasino("You loose ! Try again", true, false);
+      return ModelCasino("You loose ! Try again", true, false);
     }
   }
 
@@ -20,7 +20,12 @@ class CasinoLogic {
     indexMap.clear();
     for (int i = 0; i < 3; i++) {
       Random r = Random();
+      /* pour tester aléatoire */
       int index = r.nextInt(7);
+      /* Pour tester victoire normal*/
+      // int index = 1;
+      /* Pour tester victoire jackpot */
+      // int index = 6;
       indexMap.addAll({i: listImage[index]});
     }
     return indexMap;

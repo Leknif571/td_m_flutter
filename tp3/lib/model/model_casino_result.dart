@@ -1,7 +1,7 @@
-class DtoCasino {
+class ModelCasino {
   String message;
   bool isWin;
   bool isJackpot;
 
-  DtoCasino(this.message, this.isWin, this.isJackpot);
+  ModelCasino(this.message, this.isWin, this.isJackpot);
 }
