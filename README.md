@@ -15,7 +15,7 @@
 ✅ Tout a été terminé.
 
 ### 🎰 TP3 : Casino  
-⚠️ Tout a été terminé, sauf l'animation des symboles. J'avais avancé dessus, mais la terminer m'aurait fait perdre trop de temps.  
+⚠️ Tout a été terminé, sauf l'animation des symboles. J'avais avancé dessus, mais la terminer m'aurait fait perdre trop de temps, donc j'ai supprimer mon état d'avancer (car il créer des bugs).  
 🔧 **Astuce pour tester différentes issues** :  
 - Vous pouvez aller dans la logique métier du fichier [casino_logic.dart](https://github.com/Leknif571/td_m_flutter/blob/main/tp3/lib/logic_metier/casino_logic.dart), commenter les issues inutiles et décommenter celles que vous voulez tester. Cela permet de gagner du temps pour les tests.  
 Par exemple, pour tester l'issue du jackpot, vous obtiendrez ce code :
