@@ -44,7 +44,7 @@ Map<int, String?> returnTable(List listImage) {
 ✅ Tout a été terminé.
 ⚠️ Je n'ai pas eu le temps de faire les tests unitaires.
 
-### 📚 TP5 : Titin  
+### 📚 TP5 : Tintin  
 ⚠️ Je n'ai pas eu le temps de faire les tests unitaires  
 ⚠️ Tout a été terminé, sauf l'UI et le mode sombre.  
 - Le bouton pour accéder à la map se trouve dans la **AppBar**, à droite dans la partie **Action**.  
